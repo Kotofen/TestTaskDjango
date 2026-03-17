@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Типы транзакций{% endblock title %}
+{% block header %}<div class="container">Типы транзакций</div>{% endblock header %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/catalogs.css' %}">
+<div class="container">
+    <table style="width:90%; border-collapse: collapse;">
+        <tr>
+            <td style="width:75%">
+                {% if types.count > 0 %}
+                <table align="center">
+                    <thead>
+                        <th style="width:10%">Id</th>
+                        <th style="width:50%">Название</th>
+                        <th></th>
+                    </thead>
+                    {% for trtype in types %}
+                    <tr>
+                        <td align="center">{{ trtype.id }}</td>
+                        <td align="center">{{ trtype.TypeName }}</td>
+                        <td ><a href="types/edit/{{trtype.id}}">Изменить</a> || <a href="types/delete/{{trtype.id}}">Удалить</a></td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                {% else %}
+                <p>Список типов пуст, добавьте новый для отображения.</p>
+                {% endif %}
+            </td>
+            <td>
+                <h2 style="text-decoration: underline">Добавление нового типа транзакции</h2>
+                <form class="container_input" method="POST" action="types/add">
+                    {% csrf_token %}
+                    <p>
+                        <label>Введите название типа</label><br>
+                        <input type="text" name="name" />
+                    </p>
+                    <input class="addbutton" type="submit" value="Добавить" >
+                </form>
+            </td>
+        </tr>
+    </table>
+</div>
+
+{% endblock content %}

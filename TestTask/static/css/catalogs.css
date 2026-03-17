@@ -1,0 +1,116 @@
+.container {
+    max-width: 80%;
+    margin: auto;
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.container_input {
+    max-width: 100%;
+    margin: auto;
+    background: #f2f2f2;
+    padding: 10px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.container_filter {
+    display: flex;
+    gap: 10px;       /* расстояние между полями */
+    flex-wrap: wrap; /* если места не хватит, перенесет на новую строку */
+    align-items: center;
+    max-width: 100%;
+    margin: auto;
+    background: #f2f2f2;
+    padding: 10px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    overflow: hidden;
+    border-radius: 10px;
+    margin: auto;
+    border: 2px solid black;
+}
+
+thead {
+    background: #f2f2f2;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ccc;
+    font-size: 18px;
+    vertical-align: top;
+}
+
+/* Чередование строк */
+tbody tr:nth-child(odd) {
+    background: white;
+}
+
+tbody tr:nth-child(even) {
+    background: #f2f2f2;
+}
+
+/* Убираем нижнюю границу у последней строки */
+tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Округление углов */
+th:first-child {
+    border-top-left-radius: 10px;
+}
+
+th:last-child {
+    border-top-right-radius: 10px;
+}
+
+tbody tr:last-child td:first-child {
+    border-bottom-left-radius: 10px;
+}
+
+tbody tr:last-child td:last-child {
+    border-bottom-right-radius: 10px;
+}
+
+tbody td:last-child {
+    text-align: right;
+}
+
+.addbutton {
+    background-color: #909090;
+    color: white;
+    border: 1px solid #3e8e41;
+    padding: 8px 16px;
+    font-size: 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    margin: 5px;
+}
+
+/* Наведение */
+.addbutton:hover {
+    background-color: #404040;
+}
+
+/* Нажатие */
+.addbutton:active {
+    transform: scale(0.97);
+}

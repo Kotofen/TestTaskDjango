@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Подкатегории транзакций{% endblock title %}
+{% block header %}<div class="container">Подкатегории транзакций</div>{% endblock header %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/catalogs.css' %}">
+<div class="container">
+    <table style="width:90%; border-collapse: collapse;">
+        <tr>
+            <td style="width:75%">
+                {% if subcategories.count > 0 %}
+                <table align="center">
+                    <thead>
+                        <th style="width:10%">Id</th>
+                        <th style="width:30%">Название</th>
+                        <th style="width:30%">Категория</th>
+                        <th></th>
+                    </thead>
+                    {% for subcategory in subcategories %}
+                    <tr>
+                        <td align="center">{{ subcategory.id }}</td>
+                        <td align="center">{{ subcategory.SubCatName }}</td>
+                        <td align="center">{{ subcategory.Category.CatName }}</td>
+                        <td ><a href="subcategories/edit/{{subcategory.id}}">Изменить</a> || <a href="subcategories/delete/{{subcategory.id}}">Удалить</a></td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                {% else %}
+                <p>Список подкатегорий пуст, добавьте новую для отображения.</p>
+                {% endif %}
+            </td>
+            <td>
+                <h2 style="text-decoration: underline">Добавление новой подкатегории транзакций</h2>
+                <form class="container_input" method="POST" action="subcategories/add">
+                    {% csrf_token %}
+                    <p>
+                        <label>Введите название подкатегории</label><br>
+                        <input type="text" name="name" />
+                    </p>
+                    <p>
+                        <label>Выберите её категорию</label><br>
+                        <select id="categories" name="catName">
+                            {% for category in categories %}
+                            <option>{{ category.CatName }}</option>
+                            {% endfor %}
+                        </select>
+                    </p>
+                    <input class="addbutton" type="submit" value="Добавить" >
+                </form>
+            </td>
+        </tr>
+    </table>
+</div>
+
+{% endblock content %}

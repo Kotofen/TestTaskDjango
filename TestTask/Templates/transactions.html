@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Движения Денежных Средств{% endblock title %}
+{% block header %}
+<div class="container">Движения Денежных Средств</div>{% endblock header %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/catalogs.css' %}">
+<div class="container">
+    <table border="1" style="width:100%">
+        <tr>
+            <td>
+                <h2 style="text-decoration: underline">Фильтры для записей о Движении Денежных Средств</h2>
+                <form class="container_filter" method="get">
+                    Начальная дата
+                    {{ filterform.start_date }}
+                    Конечная дата
+                    {{ filterform.end_date }}
+                    Статус
+                    {{ filterform.status }}
+                    Тип
+                    {{ filterform.type }}
+                    Категория
+                    {{ filterform.category }}
+                    Подкатегория
+                    {{ filterform.subcategory }}
+                    <button class="addbutton" type="submit">Применить фильтры</button>
+                </form>
+                <h2 style="text-decoration: underline">Записи о Движении Денежных Средств</h2>
+                {% if transactions.count > 0 %}
+                <table align="center">
+                    <thead>
+                    <th>Id</th>
+                    <th>Дата транзакции</th>
+                    <th>Статус</th>
+                    <th>Тип</th>
+                    <th>Категория</th>
+                    <th>Подкатегория</th>
+                    <th>Сумма транзакции</th>
+                    <th>Комментарий</th>
+                    <th></th>
+                    </thead>
+                    {% for transaction in transactions %}
+                    <tr>
+                        <td align="center">{{ transaction.id }}</td>
+                        <td align="center">{{ transaction.TransactionDate }}</td>
+                        <td align="center">{{ transaction.Status.StatusName }}</td>
+                        <td align="center">{{ transaction.Type.TypeName }}</td>
+                        <td align="center">{{ transaction.Category.CatName }}</td>
+                        <td align="center">{{ transaction.Subcategory.SubCatName }}</td>
+                        <td align="center">{{ transaction.TransactionSumm }}</td>
+                        <td align="center">{{ transaction.Commentary }}</td>
+                        <td><a href="transactions/edit/{{transaction.id}}">Изменить</a> || <a
+                                href="transactions/delete/{{transaction.id}}">Удалить</a></td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                {% else %}
+                <p>Список Движений Денежных Средств пуст, добавьте новое для отображения.</p>
+                {% endif %}
+            </td>
+            <td>
+                <h2 style="text-decoration: underline">Добавление новой записи о Движении Денежных Средств</h2>
+                <form class="container_input" method="post" action="transactions/add">
+                    {% csrf_token %}
+                    {{ form.non_field_errors }}
+
+                    <div>
+                        Дата
+                        {{ form.TransactionDate }}
+                    </div>
+
+                    <div>
+                        Статус
+                        {{ form.Status }}
+                    </div>
+
+                    <div>
+                        Тип
+                        {{ form.Type }}
+                        {{ form.Type.errors }}
+                    </div>
+
+                    <div>
+                        Категория
+                        {{ form.Category }}
+                        {{ form.Category.errors }}
+                    </div>
+
+                    <div>
+                        Подкатегория
+                        {{ form.Subcategory }}
+                        {{ form.Subcategory.errors }}
+                    </div>
+
+                    <div>
+                        Сумма
+                        {{ form.TransactionSumm }}
+                        {{ form.TransactionSumm.errors }}
+                    </div>
+
+                    <div>
+                        Комментарий
+                        {{ form.Commentary }}
+                    </div>
+
+                    <button class="addbutton" type="submit">Добавить запись</button>
+
+                </form>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+$("#id_Type").change(function () {
+
+    const typeId = $(this).val();
+
+    $.ajax({
+        url: "/ajax/load-categories/",
+        data: {
+            'type_id': typeId
+        },
+        success: function (data) {
+
+            let html = '<option value="">---------</option>';
+
+            data.forEach(function(item){
+                html += `<option value="${item.id}">${item.CatName}</option>`
+            });
+
+            $("#id_Category").html(html);
+            $("#id_Subcategory").html('<option value="">---------</option>');
+        }
+    });
+
+});
+
+
+$("#id_Category").change(function () {
+
+    const categoryId = $(this).val();
+
+    $.ajax({
+        url: "/ajax/load-subcategories/",
+        data: {
+            'category_id': categoryId
+        },
+        success: function (data) {
+
+            let html = '<option value="">---------</option>';
+
+            data.forEach(function(item){
+                html += `<option value="${item.id}">${item.SubCatName}</option>`
+            });
+
+            $("#id_Subcategory").html(html);
+        }
+    });
+
+});
+
+
+</script>
+{% endblock content %}

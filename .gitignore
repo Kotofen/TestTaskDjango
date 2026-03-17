@@ -1,0 +1,11 @@
+# PyCharm
+.idea/
+
+# Virtual Environments
+venv/
+
+# Compiled Python files
+__pycache__/
+
+# SQLite DB
+TestTask/db.sqlite3

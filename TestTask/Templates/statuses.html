@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Статусы транзакций{% endblock title %}
+{% block header %}<div class="container">Статусы транзакций</div>{% endblock header %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/catalogs.css' %}">
+<div class="container">
+    <table style="width:90%; border-collapse: collapse;">
+        <tr>
+            <td style="width:75%">
+                {% if statuses.count > 0 %}
+                <table align="center">
+                    <thead>
+                        <th style="width:10%">Id</th>
+                        <th style="width:50%">Название</th>
+                        <th></th>
+                    </thead>
+                    {% for status in statuses %}
+                    <tr>
+                        <td align="center">{{ status.id }}</td>
+                        <td align="center">{{ status.StatusName }}</td>
+                        <td ><a href="statuses/edit/{{status.id}}">Изменить</a> || <a href="statuses/delete/{{status.id}}">Удалить</a></td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                {% else %}
+                <p>Список статусов пуст, добавьте новый для отображения.</p>
+                {% endif %}
+            </td>
+            <td>
+                <h2 style="text-decoration: underline">Добавление нового статуса транзакции</h2>
+                <form class="container_input" method="POST" action="statuses/add">
+                    {% csrf_token %}
+                    <p>
+                        <label>Введите название статуса</label><br>
+                        <input type="text" name="name" />
+                    </p>
+                    <input class="addbutton" type="submit" value="Добавить" >
+                </form>
+            </td>
+        </tr>
+    </table>
+</div>
+
+{% endblock content %}

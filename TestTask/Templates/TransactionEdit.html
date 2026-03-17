@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Изменение ДДС{% endblock title %}
+{% block header %}
+<div class="container">Изменение ДДС</div>{% endblock header %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/catalogs.css' %}">
+<div class="container">
+    <form class="container_input" method="POST" action="{{transaction.id}}">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+
+        <div>
+            Дата
+            {{ form.TransactionDate }}
+        </div>
+
+        <div>
+            Статус
+            {{ form.Status }}
+        </div>
+
+        <div>
+            Тип
+            {{ form.Type }}
+            {{ form.Type.errors }}
+        </div>
+
+        <div>
+            Категория
+            {{ form.Category }}
+            {{ form.Category.errors }}
+        </div>
+
+        <div>
+            Подкатегория
+            {{ form.Subcategory }}
+            {{ form.Subcategory.errors }}
+        </div>
+
+        <div>
+            Сумма
+            {{ form.TransactionSumm }}
+            {{ form.TransactionSumm.errors }}
+        </div>
+
+        <div>
+            Комментарий
+            {{ form.Commentary }}
+        </div>
+
+        <button class="addbutton" type="submit">Изменить запись</button>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+$("#id_Type").change(function () {
+
+    const typeId = $(this).val();
+
+    $.ajax({
+        url: "/ajax/load-categories/",
+        data: {
+            'type_id': typeId
+        },
+        success: function (data) {
+
+            let html = '<option value="">---------</option>';
+
+            data.forEach(function(item){
+                html += `<option value="${item.id}">${item.CatName}</option>`
+            });
+
+            $("#id_Category").html(html);
+            $("#id_Subcategory").html('<option value="">---------</option>');
+        }
+    });
+
+});
+
+
+$("#id_Category").change(function () {
+
+    const categoryId = $(this).val();
+
+    $.ajax({
+        url: "/ajax/load-subcategories/",
+        data: {
+            'category_id': categoryId
+        },
+        success: function (data) {
+
+            let html = '<option value="">---------</option>';
+
+            data.forEach(function(item){
+                html += `<option value="${item.id}">${item.SubCatName}</option>`
+            });
+
+            $("#id_Subcategory").html(html);
+        }
+    });
+
+});
+
+</script>
+{% endblock content %}

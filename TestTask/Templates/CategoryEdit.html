@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Изменение категории{% endblock title %}
+{% block header %}<div class="container">Изменение категории "{{ category.CatName }}"</div>{% endblock header %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/catalogs.css' %}">
+<div class="container">
+    <form class="container_input" method="POST" action="{{category.id}}">
+        {% csrf_token %}
+        <p>
+            <label>Введите новое название категории</label><br>
+            <input type="text" name="name" value="{{category.CatName}}"/>
+        </p>
+        <p>
+            <label>Выберите тип категории</label><br>
+            <select id="types" name="typeName">
+                {% for trtype in types %}
+                {% if trtype.TypeName == category.Type.TypeName %}
+                <option selected>{{ trtype.TypeName }}</option>
+                {% else %}
+                <option>{{ trtype.TypeName }}</option>
+                {% endif %}
+                {% endfor %}
+            </select>
+        </p>
+        <input class="addbutton" type="submit" value="Изменить" >
+    </form>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Изменение подкатегории{% endblock title %}
+{% block header %}<div class="container">Изменение подкатегории "{{ subcategory.SubCatName }}"</div>{% endblock header %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/catalogs.css' %}">
+<div class="container">
+    <form class="container_input" method="POST" action="{{subcategory.id}}">
+        {% csrf_token %}
+        <p>
+            <label>Введите новое название подкатегории</label><br>
+            <input type="text" name="name" value="{{subcategory.SubCatName}}"/>
+        </p>
+        <p>
+            <label>Выберите тип категории</label><br>
+            <select id="types" name="catName">
+                {% for category in categories %}
+                {% if category.CatName == subcategory.Category.CatName %}
+                <option selected>{{ category.CatName }}</option>
+                {% else %}
+                <option>{{ category.CatName }}</option>
+                {% endif %}
+                {% endfor %}
+            </select>
+        </p>
+        <input class="addbutton" type="submit" value="Изменить" >
+    </form>
+</div>
+
+{% endblock content %}
