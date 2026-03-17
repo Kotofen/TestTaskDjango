@@ -21,5 +21,3 @@ $ python TestTask\manage.py migrate
 ```sh
 $ python TestTask\manage.py runserver
 ```
-
-## Проверка роботоспособности
